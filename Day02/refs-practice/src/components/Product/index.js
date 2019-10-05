@@ -18,7 +18,7 @@ class Product extends Component {
           <div className="card-body">
             <h4 className="card-title">{this.props.name}</h4>
             <span className="btn btn-outline-warning rounded-pill">
-              {this.props.price}
+              {this.props.price}$
             </span>
             <p className="card-text mt-3">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi
