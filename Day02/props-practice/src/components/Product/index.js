@@ -2,10 +2,27 @@ import React, { Component } from "react";
 import "./index.css";
 
 class Product extends Component {
-  // constructor(){
-  //   super(this);
+  constructor(props) {
+    super(props);
+    // console.log(props);
+    this.onAddToCart = this.onAddToCart.bind(this);
+  }
 
-  // }
+  onAddToCart() {
+    // bind this through construtor
+    alert(this.props.name);
+  }
+
+  onAddToCart2 = () => {
+    // bind this through arrow function
+    alert(this.props.name);
+  };
+
+  onAddToCart3(parram) {
+    // bind this through parram from arrow function
+    alert(parram);
+  }
+
   render() {
     return (
       <div className="col-xl-3 col-md-4 col-sm-6 p-2">
@@ -25,7 +42,15 @@ class Product extends Component {
               natus blanditiis ipsam!
             </p>
             <button className="btn btn-primary m-2">View</button>
-            <button className="btn btn-success m-2">Add to cart</button>
+            <button className="btn btn-success m-2" onClick={this.onAddToCart}>
+              Add to cart
+            </button>
+            {/* <button
+              className="btn btn-info m-2"
+              onClick={() => this.onAddToCart3(this.props.name)}
+            >
+              Add to cart
+            </button> */}
           </div>
         </div>
       </div>

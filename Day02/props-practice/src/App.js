@@ -3,6 +3,21 @@ import "./App.css";
 import Product from "./components/Product";
 
 class App extends Component {
+  changeColor = () => {
+    let el0 = document.getElementsByClassName("card")[0];
+    el0.style.backgroundColor = `rgba(${255 * Math.random()}, ${255 *
+      Math.random()}, ${255 * Math.random()}, .5)`;
+    let el1 = document.getElementsByClassName("card")[1];
+    el1.style.backgroundColor = `rgba(${255 * Math.random()}, ${255 *
+      Math.random()}, ${255 * Math.random()}, .5)`;
+    let el2 = document.getElementsByClassName("card")[2];
+    el2.style.backgroundColor = `rgba(${255 * Math.random()}, ${255 *
+      Math.random()}, ${255 * Math.random()}, .5)`;
+    let el3 = document.getElementsByClassName("card")[3];
+    el3.style.backgroundColor = `rgba(${255 * Math.random()}, ${255 *
+      Math.random()}, ${255 * Math.random()}, .5)`;
+  };
+
   render() {
     return (
       <div>
@@ -74,6 +89,14 @@ class App extends Component {
           <Product name="Product Name" price="30000" />
           <Product name="Product Name" price="30000" />
           <Product name="Product Name" price="30000" />
+        </div>
+        <div className="d-flex">
+          <button
+            className="btn btn-info mt-lg-5 mt-3 mx-auto"
+            onClick={this.changeColor}
+          >
+            Change Color
+          </button>
         </div>
       </div>
     );
