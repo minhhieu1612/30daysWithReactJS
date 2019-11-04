@@ -15,13 +15,13 @@ class AddProduct extends Component {
     };
   }
 
+  onHandleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   onHandleSubmit = event => {
     event.preventDefault();
     console.log(this.state);
-  };
-
-  onHandleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
   };
 
   render() {
