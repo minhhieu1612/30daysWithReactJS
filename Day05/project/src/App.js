@@ -8,7 +8,9 @@ class App extends Component {
     super(props);
     this.state = {
       showAddJob: false,
-      jobWillAdd: {}
+      jobWillAdd: {},
+      jobEditing: null,
+      jobEdited: null
     };
   }
 
@@ -20,13 +22,14 @@ class App extends Component {
     this.setState({ showAddJob: false });
   }
 
+  onShowForm = e => {
+    this.setState({ showAddJob: true });
+  }
+
   onGenerateData = () => {
     let tasks = [
+
       {
-        id: this.generateID(),
-        name: 'Make a Date with Nga(Baby)',
-        status: true
-      }, {
         id: this.generateID(),
         name: 'Learn React',
         status: true
@@ -70,7 +73,23 @@ class App extends Component {
     this.setState({ jobWillAdd: task });
   }
 
+  onUpdateJob = (job) => {
+
+    this.setState({
+      jobEditing: job
+    });
+
+    this.onShowForm();
+  }
+
+  onEditedJob = (job) => {
+    this.setState({
+      jobEdited: job
+    });
+  }
+
   render() {
+    let { jobEditing } = this.state;
     return (
       <div className="container-fluid">
         <h1 className="display-3 py-4 d-flex align-self-center">
@@ -80,7 +99,12 @@ class App extends Component {
         <div className="row">
           <div className={(this.state.showAddJob) ? "col-3" : "d-none"}>
             {/* Add Job */}
-            <AddJob onCloseForm={this.onCloseForm} onReceiveJob={this.onReceiveJob} />
+            <AddJob
+              onCloseForm={this.onCloseForm}
+              onReceiveJob={this.onReceiveJob}
+              jobEditing={jobEditing}
+              onEditedJob={this.onEditedJob}
+            />
           </div>
           <div className={(this.state.showAddJob) ? "col-9" : "col"}>
             <button className="btn btn-primary" onClick={this.toggleAddJob}>
@@ -96,7 +120,11 @@ class App extends Component {
             <SearchAndSort />
 
             {/* Show Job */}
-            <JobTable taskWillAdd={this.state.jobWillAdd} />
+            <JobTable
+              jobWillAdd={this.state.jobWillAdd}
+              onUpdateJob={this.onUpdateJob}
+              editedJob={this.state.jobEdited}
+            />
           </div>
         </div>
       </div>

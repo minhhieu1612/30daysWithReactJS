@@ -6,31 +6,41 @@ class JobItem extends Component {
     this.state = {};
   }
 
-  onSetStatus = () => {
-    this.props.onSetStatus();
+  onSetStatus = e => {
+    let taskId = this.props.task.id;
+    this.props.onSetStatus(taskId);
   }
 
   taskWillDelete = e => {
-    let taskId = e.currentTarget.parentElement.id;
+    let taskId = this.props.task.id;
     this.props.onDeleteTask(taskId);
   }
 
+  onUpadteJob = e => {
+    let { onUpadteJob, task } = this.props;
+    onUpadteJob(task.id);
+  }
+
   render() {
+    let { task, index } = this.props;
+
     return (
       <tr>
-        <td>{this.props.itemNumber}</td>
-        <td>{this.props.itemName}</td>
+        <td>{index + 1}</td>
+        <td>{task.name}</td>
         <td>
-          <div className={(this.props.itemStatus)
+          <div className={(task.status)
             ? 'badge badge-danger' : 'badge badge-info'}
-            onClick={this.onSetStatus}>{(this.props.itemStatus) ? 'Active' : 'Hidden'}</div>
+            onClick={this.onSetStatus}>{(task.status) ? 'Active' : 'Hidden'}</div>
         </td>
-        <td id={this.props.keyId}>
-          <button className="btn p-2 btn-warning text-white mr-3">
+        <td>
+          <button className="btn p-2 btn-warning text-white mr-3"
+            onClick={this.onUpadteJob}>
             <i className="fas fa-pencil-alt mr-1"></i>
             Edit
           </button>
-          <button className="btn p-2 btn-danger" onClick={this.taskWillDelete}>
+          <button className="btn p-2 btn-danger"
+            onClick={this.taskWillDelete}>
             <i className="fa fa-trash mr-1"></i>
             Delete
           </button>
