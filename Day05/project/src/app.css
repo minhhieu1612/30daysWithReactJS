@@ -9,3 +9,7 @@
 *:focus {
   outline: none !important;
 }
+
+.sort-by .active {
+  background: #007bff;
+}

@@ -1,52 +1,78 @@
 import React, { Component } from "react";
 import "./app.css";
-import AddJob from "./components/AddJob";
+import TaskForm from "./components/TaskForm";
 import SearchAndSort from './components/SearchAndSort';
-import JobTable from './components/JobTable';
+import TaskTable from './components/TaskList';
+import helpers from './helpers';
 class App extends Component {
   constructor(props) {
     super(props);
+
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
     this.state = {
-      showAddJob: false,
-      jobWillAdd: {},
-      jobEditing: null,
-      jobEdited: null
+      tasks: tasks,
+      showTaskForm: false,
+      taskEditing: null,
+      sortTask: {
+        by: 'name',
+        value: 1
+      }
     };
   }
 
-  toggleAddJob = e => {
-    this.setState({ showAddJob: !this.state.showAddJob });
+
+  //=============== handle event from TaskForm ===============
+  toggleTaskForm = e => {
+    this.setState({
+      showTaskForm: !this.state.showTaskForm,
+    });
   }
 
   onCloseForm = e => {
-    this.setState({ showAddJob: false });
+    this.setState({
+      showTaskForm: false,
+      taskEditing: null
+    });
   }
 
   onShowForm = e => {
-    this.setState({ showAddJob: true });
+    this.setState({ showTaskForm: true });
   }
 
+  onReceiveTaskFromTaskForm = (task) => {
+    let { tasks } = this.state;
+    let index = helpers.findIndex(task.id, tasks);
+
+    if (index > -1) tasks.splice(index, 1, task);
+    else tasks.concat(task);
+    this.setState({ tasks: tasks });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+
+  //================ Manage local storage ====================
   onGenerateData = () => {
     let tasks = [
 
       {
-        id: this.generateID(),
+        id: helpers.generateID(),
         name: 'Learn React',
         status: true
       }, {
-        id: this.generateID(),
+        id: helpers.generateID(),
         name: 'Get Done with "I love Yoo"',
         status: false
       }, {
-        id: this.generateID(),
+        id: helpers.generateID(),
         name: 'Learn Angular 8',
         status: false
       }, {
-        id: this.generateID(),
+        id: helpers.generateID(),
         name: 'Go Swimming',
         status: true
       }, {
-        id: this.generateID(),
+        id: helpers.generateID(),
         name: 'Play Soccer',
         status: false
       }
@@ -54,61 +80,75 @@ class App extends Component {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
-  generateID = () => {
-    let hash = '';
-    for (let i = 0; i < 5; i++) {
-      hash += Math.floor((1 + Math.random()) * 0x1000000).toString(16);
-      if (i < 4) {
-        hash += '-';
-      }
-    }
-    return hash;
-  }
-
   clearLocalStorage = () => {
     localStorage.removeItem('tasks');
   }
 
-  onReceiveJob = (task) => {
-    this.setState({ jobWillAdd: task });
+
+  //================ handle event from TaskList ==============
+
+  setStatusForOneItem = (id) => {
+    let { tasks } = this.state;
+    let index = helpers.findIndex(id, tasks);
+    if (index !== -1) tasks[index].status = !tasks[index].status;
+    this.setState({ tasks: tasks });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
-  onUpdateJob = (job) => {
-
-    this.setState({
-      jobEditing: job
-    });
-
-    this.onShowForm();
+  onSendDataToTaskFormToUpdateItem = (id) => {
+    let { tasks } = this.state;
+    let index = helpers.findIndex(id, tasks);
+    if (index > -1) {
+      this.setState({
+        taskEditing: tasks[index]
+      });
+      this.onShowForm();
+    }
   }
 
-  onEditedJob = (job) => {
+  deleteOneTaskItem = (id) => {
+    let { tasks } = this.state;
+    let index = helpers.findIndex(id, tasks);
+    if (index >= 0 && index < tasks.length - 1) {
+      tasks.splice(index, 1);
+    } else if (index === tasks.length - 1) tasks.pop();
+
+    this.setState({ tasks: tasks });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+
+  //================ handle event from SearchAndSort ==============
+
+  onSortTaskList = (sortBy, sortValue) => {
     this.setState({
-      jobEdited: job
+      sortTask: {
+        by: sortBy,
+        value: sortValue
+      }
     });
   }
 
   render() {
-    let { jobEditing } = this.state;
+    let { taskEditing, tasks, sortTask } = this.state;
     return (
       <div className="container-fluid">
         <h1 className="display-3 py-4 d-flex align-self-center">
-          Jobs Management
+          Tasks Management
         </h1>
         <hr width="100%" />
         <div className="row">
-          <div className={(this.state.showAddJob) ? "col-3" : "d-none"}>
-            {/* Add Job */}
-            <AddJob
+          <div className={(this.state.showTaskForm) ? "col-3" : "d-none"}>
+            {/* Add Task */}
+            <TaskForm
               onCloseForm={this.onCloseForm}
-              onReceiveJob={this.onReceiveJob}
-              jobEditing={jobEditing}
-              onEditedJob={this.onEditedJob}
+              onReceiveTask={this.onReceiveTaskFromTaskForm}
+              taskEditing={taskEditing}
             />
           </div>
-          <div className={(this.state.showAddJob) ? "col-9" : "col"}>
-            <button className="btn btn-primary" onClick={this.toggleAddJob}>
-              <i className="fa fa-plus"></i> Add Job
+          <div className={(this.state.showTaskForm) ? "col-9" : "col"}>
+            <button className="btn btn-primary" onClick={this.toggleTaskForm}>
+              <i className="fa fa-plus"></i> Add Task
             </button>
             <button className="btn btn-danger ml-3" onClick={this.onGenerateData}>
               <i className="fa fa-pen"></i> Generate Data
@@ -117,13 +157,15 @@ class App extends Component {
               <i className="fa fa-trash"></i> Clear Cookie
             </button>
             {/* Search - Sort */}
-            <SearchAndSort />
+            <SearchAndSort onReceiveParamsFromSearchAndSortToSortTaskList={this.onSortTaskList} />
 
-            {/* Show Job */}
-            <JobTable
-              jobWillAdd={this.state.jobWillAdd}
-              onUpdateJob={this.onUpdateJob}
-              editedJob={this.state.jobEdited}
+            {/* Show Task */}
+            <TaskTable
+              onReceiveIdFromTaskListToChangeStatus={this.setStatusForOneItem}
+              onReceiveIdFromTaskListToDeleteItem={this.deleteOneTaskItem}
+              onReceiveIdFromTaskListToUpdateItem={this.onSendDataToTaskFormToUpdateItem}
+              tasks={tasks}
+              sortParams={sortTask}
             />
           </div>
         </div>

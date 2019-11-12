@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+// import helpers from "../helpers";
 
-class AddJob extends Component {
+class TaskForm extends Component {
   constructor(props) {
     super(props);
 
@@ -11,69 +12,42 @@ class AddJob extends Component {
     };
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   let { jobEditing } = nextProps;
-  //   let state = this.state;
-  //   console.log(this.state);
-  //   let checkUpdateState = (JSON.stringify(nextState) !== JSON.stringify(this.state));
-  //   let checkUpdateProps = (JSON.stringify(jobEditing) !== JSON.stringify(state));
-  //   return checkUpdateState && checkUpdateProps;
-  //   //  (checkUpdateProps && !state.id.length) || (!checkUpdateProps && state.id.length);
-  // }
-
-  componentDidUpdate() {
-    let { jobEditing } = this.props;
-    if (jobEditing !== null && !this.state.name.length) {
-      let { id, name, status } = jobEditing;
-      if (this.state.id !== id) {
-        console.log('set state to jobEditing');
-        this.setState({
-          id: id,
-          name: name,
-          status: status
-        });
-      }
+  static getDerivedStateFromProps(props, state) {
+    // console.log(state, props.taskEditing);
+    if (props && props.taskEditing && !state.id.length) {
+      let { id, name, status } = props.taskEditing;
+      return {
+        id: id,
+        name: name,
+        status: status
+      };
     }
-  }
 
-  generateID = () => {
-    let hash = '';
-    for (let i = 0; i < 5; i++) {
-      hash += Math.floor((1 + Math.random()) * 0x1000000).toString(16);
-      if (i < 4) {
-        hash += '-';
-      }
-    }
-    return hash;
+    return state;
   }
 
   onHandleChange = e => {
-    const target = e.target;
-    let value = ("select-one" === target.type) ? (target.value === 'true') : target.value;
-    this.setState({ [target.name.toString().substr(4).toLowerCase()]: value });
+    let target = e.target;
+    let name = target.name.toString().substr(4).toLowerCase();
+    let value = target.value;
+    if (target.type === "select-one") value = (value === 'true');
+    this.setState({ [name]: value });
   };
 
   onHandleSubmit = e => {
     e.preventDefault();
-    let { id, name, status } = this.state;
-    if (id.length) {
-      this.props.onEditedJob({
-        id: id,
-        name: name,
-        status: status
-      });
-    } else {
-      this.props.onReceiveJob({
-        id: this.generateID(),
-        name: name,
-        status: status
-      });
-    }
-    this.clearForm();
+    this.props.onReceiveTask(this.state);
+
     this.onCloseForm();
   };
 
   onCloseForm = () => {
+    this.setState({
+      id: "",
+      name: "",
+      status: false
+    });
+
     this.props.onCloseForm();
   }
 
@@ -91,7 +65,7 @@ class AddJob extends Component {
       <form action="" onSubmit={this.onHandleSubmit}>
         <div className="card">
           <div className="card-header alert-warning d-flex">
-            {(id.length) ? 'Update Job' : 'Add Job'}
+            {(id.length) ? 'Update Task' : 'Add Task'}
             <button type="button" className="btn ml-auto p-0" onClick={this.onCloseForm}>
               <i className="fas fa-times-circle"></i>
             </button>
@@ -145,4 +119,4 @@ class AddJob extends Component {
   }
 }
 
-export default AddJob;
+export default TaskForm;
