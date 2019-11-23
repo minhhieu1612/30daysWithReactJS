@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Lillis",
+    "price": 14.98,
+    "quality": 14
+  },
+  {
+    "id": 2,
+    "name": "Linc",
+    "price": 9.76,
+    "quality": 9
+  },
+  {
+    "id": 3,
+    "name": "Goddart",
+    "price": 13.99,
+    "quality": 22
+  },
+  {
+    "id": 4,
+    "name": "Hansiain",
+    "price": 3.58,
+    "quality": 1
+  },
+  {
+    "id": 5,
+    "name": "Keane",
+    "price": 7.27,
+    "quality": 9
+  },
+  {
+    "id": 6,
+    "name": "Kristofor",
+    "price": 12.32,
+    "quality": 23
+  },
+  {
+    "id": 7,
+    "name": "Teddie",
+    "price": 12.5,
+    "quality": 23
+  },
+  {
+    "id": 8,
+    "name": "Hanny",
+    "price": 6.49,
+    "quality": 3
+  },
+  {
+    "id": 9,
+    "name": "Dorris",
+    "price": 8.01,
+    "quality": 25
+  },
+  {
+    "id": 10,
+    "name": "Claudius",
+    "price": 7.57,
+    "quality": 30
+  }
+]
