@@ -32,6 +32,7 @@ class ItemProduct extends Component {
         quality
       }
     } = this.props
+    let permission = localStorage.getItem('isAdmin') === 'true'
 
     return (
       <li style={{ marginRight: '1rem', marginBottom: '1rem' }}>
@@ -46,17 +47,25 @@ class ItemProduct extends Component {
           <li>
             quality  -  {quality}
           </li>
-          <li>
-            <button onClick={this.onEdit} style={{ marginRight: '5px' }}>
-              Edit
-            </button>
-            <button onClick={this.onAddToCart}>
-              Add to cart
-            </button>
-          </li>
-          <li>
-            <button onClick={this.onDelete}>Delete</button>
-          </li>
+
+          {
+            !permission &&
+            <li>
+              <button onClick={this.onAddToCart}>
+                Add to cart
+                </button>
+            </li>
+          }
+
+          {
+            permission &&
+            <li>
+              <button onClick={this.onEdit} style={{ marginRight: '5px' }}>
+                Edit
+                </button>
+              <button onClick={this.onDelete}>Delete</button>
+            </li>
+          }
         </ul>
 
       </li>

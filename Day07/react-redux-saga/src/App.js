@@ -1,26 +1,31 @@
 import React, { Component } from 'react';
 import './App.css'
 import Navigation from './components/Navigation'
-import { ListProductsContainer } from './containers/products'
-import { CartListContainer } from './containers/carts'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Content from './components/Content'
+import routes from './routes'
 
 class App extends Component {
+
+  renderPageFromRoute = routes => {
+    if (routes.length) {
+      return routes.map(({ path, exact, component }) =>
+        <Route path={path} exact={exact} component={component} />)
+    }
+
+    return <h1>This page have no content!!</h1 >
+  }
+
   render() {
     return (
       <BrowserRouter>
         <Navigation />
         <hr></hr>
         <Switch>
-          <Route path="/products" component={ListProductsContainer} />
-          <Route path="/carts" component={CartListContainer} />
-          <Route path="/" render={props => <Content />} />
+          {this.renderPageFromRoute(routes)}
         </Switch>
       </BrowserRouter>
     )
   }
-
 }
 
 export default App

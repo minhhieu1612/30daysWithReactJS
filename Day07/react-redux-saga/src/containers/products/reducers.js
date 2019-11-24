@@ -24,6 +24,14 @@ const myReducer = (state = initialState, actions) => {
       if (index > -1) state.splice(index, 1)
       setProductsStorage(state)
     } break
+
+    case types.FETCH_SUCCESS:
+      state = actions.products
+      setProductsStorage(state)
+      break
+    case types.FETCH_FAILURE: alert(actions.message)
+      break
+
     default:
   }
 

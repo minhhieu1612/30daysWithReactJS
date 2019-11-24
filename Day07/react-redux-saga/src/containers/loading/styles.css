@@ -1,0 +1,14 @@
+.loading {
+  background: white;
+  width: 93.5%;
+  position: absolute;
+  height: 82%;
+}
+
+.loading img {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8rem;
+}

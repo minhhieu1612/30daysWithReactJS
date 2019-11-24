@@ -1,5 +1,5 @@
 import ListProductsContainer from './selectors'
-import * as operations from './operations'
+import operations from './operations'
 import reducers from './reducers'
 
 export {
