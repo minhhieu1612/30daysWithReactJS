@@ -5,7 +5,6 @@ import NotFound from '../components/NotFound'
 import { ListProductsContainer } from '../containers/products'
 import { CartListContainer } from '../containers/carts'
 
-
 const routes = [
   {
     path: '/',

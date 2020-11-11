@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component about testing 1`] = `
+<div
+  className="block-center"
+>
+  <h1
+    style={
+      Object {
+        "color": "blue",
+      }
+    }
+  >
+    Page About
+  </h1>
+</div>
+`;

@@ -5,6 +5,12 @@ import Product from "./components/Product";
 class App extends Component {
   constructor(props) {
     super(props);
+    this.btnSearch = React.createRef();
+  }
+
+  showRef = (e) => {
+    e.preventDefault();
+    console.log(this.btnSearch);
   }
 
   addProduct = () => {
@@ -74,7 +80,7 @@ class App extends Component {
                 </div>
               </li>
             </ul>
-            <form className="form-inline my-2 my-lg-0">
+            <form className="form-inline my-2 my-lg-0" onSubmit={this.showRef}>
               <input
                 className="form-control mr-sm-2"
                 type="text"
@@ -83,6 +89,7 @@ class App extends Component {
               <button
                 className="btn btn-outline-success my-2 my-sm-0"
                 type="submit"
+                ref={this.btnSearch}
               >
                 Search
               </button>

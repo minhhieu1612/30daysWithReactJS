@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 class CartItem extends Component {
+
   onDeleteCart = () => {
     let { cart, onDeleteCart } = this.props
     onDeleteCart(cart)

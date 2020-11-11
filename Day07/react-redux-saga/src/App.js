@@ -8,8 +8,8 @@ class App extends Component {
 
   renderPageFromRoute = routes => {
     if (routes.length) {
-      return routes.map(({ path, exact, component }) =>
-        <Route path={path} exact={exact} component={component} />)
+      return routes.map(({ path, exact, component }, index) =>
+        <Route key={index} path={path} exact={exact} component={component} />)
     }
 
     return <h1>This page have no content!!</h1 >

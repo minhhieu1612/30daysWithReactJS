@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`testing CartItem component 1`] = `
+<tr>
+  <td
+    style={
+      Object {
+        "width": "10%",
+      }
+    }
+  >
+    1
+  </td>
+  <td
+    style={
+      Object {
+        "width": "40%",
+      }
+    }
+  >
+    Lillis
+  </td>
+  <td
+    style={
+      Object {
+        "width": "30%",
+      }
+    }
+  >
+    <button
+      onClick={[Function]}
+      style={
+        Object {
+          "marginRight": "10px",
+        }
+      }
+    >
+       - 
+    </button>
+    1
+    <button
+      onClick={[Function]}
+      style={
+        Object {
+          "marginLeft": "10px",
+          "marginRight": "10px",
+        }
+      }
+    >
+       + 
+    </button>
+  </td>
+  <td
+    style={
+      Object {
+        "width": "10%",
+      }
+    }
+  >
+    $
+    14.98
+  </td>
+  <td
+    style={
+      Object {
+        "width": "10%",
+      }
+    }
+  >
+    <button
+      onClick={[Function]}
+      type="button"
+    >
+      Delete
+    </button>
+  </td>
+</tr>
+`;
